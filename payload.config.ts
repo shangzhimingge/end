@@ -13,7 +13,7 @@ const dirname = path.dirname(filename)
 const Users: CollectionConfig = {
   slug: 'users',
   auth: {
-    verify: true,
+    verify: Boolean(process.env.SMTP_HOST),
     tokenExpiration: 7 * 24 * 60 * 60,
   },
   admin: {
@@ -54,6 +54,7 @@ const Users: CollectionConfig = {
           const existing = await req.payload.count({ collection: 'users' })
           if (existing.totalDocs === 0) {
             data.role = 'admin'
+            data._verified = true
           }
         }
         return data
