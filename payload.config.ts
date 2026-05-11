@@ -55,6 +55,7 @@ const Users: CollectionConfig = {
           if (existing.totalDocs === 0) {
             data.role = 'admin'
             data._verified = true
+            data._verificationtoken = null
           }
         }
         return data
@@ -139,6 +140,7 @@ const Projects: CollectionConfig = {
 export default buildConfig({
   secret: process.env.PAYLOAD_SECRET || 'CHANGE_ME_IN_PROD',
   serverURL: process.env.NEXT_PUBLIC_SERVER_URL,
+  cookiePrefix: 'mysite',
   cors: process.env.NEXT_PUBLIC_SERVER_URL ? [process.env.NEXT_PUBLIC_SERVER_URL] : '*',
   csrf: process.env.NEXT_PUBLIC_SERVER_URL ? [process.env.NEXT_PUBLIC_SERVER_URL] : [],
   admin: { user: 'users' },
