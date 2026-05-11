@@ -3,7 +3,9 @@
     "allow": [
       "Bash(C:\\\\Users\\\\18328\\\\.claude\\\\plugins\\\\cache\\\\superpowers-dev\\\\superpowers\\\\5.1.0\\\\skills\\\\brainstorming\\\\scripts\\\\start-server.sh --project-dir d:\\\\github\\\\end)",
       "Bash(bash \"/c/Users/18328/.claude/plugins/cache/superpowers-dev/superpowers/5.1.0/skills/brainstorming/scripts/start-server.sh\" --project-dir \"/d/github/end\")",
-      "Bash(npx create-next-app@latest . --typescript --tailwind --eslint --app --src-dir --import-alias \"@/*\" --use-npm --yes)"
+      "Bash(npx create-next-app@latest . --typescript --tailwind --eslint --app --src-dir --import-alias \"@/*\" --use-npm --yes)",
+      "Bash(git add *)",
+      "Bash(git commit *)"
     ]
   }
 }
