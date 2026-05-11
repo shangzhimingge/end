@@ -139,6 +139,8 @@ const Projects: CollectionConfig = {
 export default buildConfig({
   secret: process.env.PAYLOAD_SECRET || 'CHANGE_ME_IN_PROD',
   serverURL: process.env.NEXT_PUBLIC_SERVER_URL,
+  cors: process.env.NEXT_PUBLIC_SERVER_URL ? [process.env.NEXT_PUBLIC_SERVER_URL] : '*',
+  csrf: process.env.NEXT_PUBLIC_SERVER_URL ? [process.env.NEXT_PUBLIC_SERVER_URL] : [],
   admin: { user: 'users' },
   collections: [Users, Media, Posts, Projects],
   editor: lexicalEditor(),
