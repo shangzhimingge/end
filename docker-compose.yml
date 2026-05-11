@@ -21,9 +21,19 @@ services:
       - "${APP_PORT:-3001}:3000"
     environment:
       DATABASE_URL: postgresql://${POSTGRES_USER:-mysite}:${POSTGRES_PASSWORD:-changeme}@db:5432/${POSTGRES_DB:-mysite}
+      PAYLOAD_SECRET: ${PAYLOAD_SECRET:-change_me_to_a_random_long_secret}
+      NEXT_PUBLIC_SERVER_URL: ${NEXT_PUBLIC_SERVER_URL:-http://localhost:3001}
+      SMTP_HOST: ${SMTP_HOST:-}
+      SMTP_PORT: ${SMTP_PORT:-587}
+      SMTP_USER: ${SMTP_USER:-}
+      SMTP_PASS: ${SMTP_PASS:-}
+      SMTP_FROM: ${SMTP_FROM:-noreply@example.com}
+    volumes:
+      - uploads:/app/uploads
     depends_on:
       db:
         condition: service_healthy
 
 volumes:
   pgdata:
+  uploads:

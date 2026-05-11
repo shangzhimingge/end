@@ -1,11 +1,16 @@
-import prisma from "@/lib/prisma";
+import { getPayloadClient } from "@/lib/payload";
 
 export default async function Portfolio() {
-  let projects: Awaited<ReturnType<typeof prisma.project.findMany>> = [];
+  let projects: any[] = [];
   try {
-    projects = await prisma.project.findMany();
+    const payload = await getPayloadClient();
+    const res = await payload.find({
+      collection: 'projects',
+      limit: 100,
+    });
+    projects = res.docs;
   } catch (e) {
-    console.warn("DB not connected or seeded yet.");
+    console.warn("DB not connected or not initialized yet.");
   }
 
   return (
@@ -19,13 +24,17 @@ export default async function Portfolio() {
           {projects.map(p => (
             <div key={p.id} className="bg-white rounded-xl overflow-hidden shadow-md hover:scale-105 transition-transform">
               <div className="h-40 bg-gray-200 w-full flex items-center justify-center">
-                <span className="text-gray-400">Image: {p.imageUrl}</span>
+                {p.image?.url ? (
+                  <img src={p.image.url} alt={p.image.alt || p.name} className="object-cover w-full h-full" />
+                ) : (
+                  <span className="text-gray-400">暂无图片</span>
+                )}
               </div>
               <div className="p-4">
                 <h2 className="text-xl font-bold mb-2">{p.name}</h2>
                 <p className="text-sm text-gray-600 mb-3">{p.description}</p>
                 <div className="flex gap-1 flex-wrap">
-                  {p.techStack.map(t => (
+                  {(p.techStack || []).map((t: string) => (
                     <span key={t} className="bg-anime-pink text-white text-xs px-2 py-1 rounded">{t}</span>
                   ))}
                 </div>

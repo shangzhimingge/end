@@ -1,12 +1,19 @@
-import prisma from "@/lib/prisma";
+import { getPayloadClient } from "@/lib/payload";
 import Link from "next/link";
 
 export default async function BlogList() {
-  let posts: Awaited<ReturnType<typeof prisma.post.findMany>> = [];
+  let posts: any[] = [];
   try {
-    posts = await prisma.post.findMany({ orderBy: { publishedAt: 'desc' } });
+    const payload = await getPayloadClient();
+    const res = await payload.find({
+      collection: 'posts',
+      where: { status: { equals: 'published' } },
+      sort: '-publishedAt',
+      limit: 100,
+    });
+    posts = res.docs;
   } catch (e) {
-    console.warn("DB not connected or seeded yet.");
+    console.warn("DB not connected or not initialized yet.");
   }
 
   return (
@@ -21,8 +28,8 @@ export default async function BlogList() {
             <Link key={post.id} href={`/blog/${post.slug}`} className="block p-4 border-2 border-transparent hover:border-anime-blue rounded-xl transition-colors bg-anime-bg">
               <h2 className="text-xl font-bold text-anime-text">{post.title}</h2>
               <div className="text-sm text-gray-500 mt-2 flex gap-4">
-                <span>📅 {post.publishedAt.toLocaleDateString()}</span>
-                <span>👀 {post.views} 阅读</span>
+                <span>📅 {post.publishedAt ? new Date(post.publishedAt).toLocaleDateString() : '未发布'}</span>
+                <span>👀 {post.views || 0} 阅读</span>
               </div>
             </Link>
           ))}

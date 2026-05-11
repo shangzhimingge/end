@@ -20,6 +20,7 @@ export default function RootLayout({
           <Link href="/about" className="hover:underline">关于我</Link>
           <Link href="/portfolio" className="hover:underline">作品集</Link>
           <Link href="/blog" className="hover:underline">博客</Link>
+          <a href="/admin" className="ml-auto hover:underline">管理</a>
         </nav>
         <main className="p-8 max-w-4xl mx-auto">
           {children}
